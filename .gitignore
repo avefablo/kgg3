@@ -1,5 +1,6 @@
 commit_msg.txt
 .idea/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
