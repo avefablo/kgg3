@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="52550309-e700-49c2-9c08-8be9c1ddec35" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/markdown-navigator/profiles_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/task3.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bresenhammer.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/drawer.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/figures.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/launcher.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/qtcarcas.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/solver.py" />
-    </list>
+    <list default="true" id="52550309-e700-49c2-9c08-8be9c1ddec35" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
