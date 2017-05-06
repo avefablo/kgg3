@@ -7,8 +7,8 @@ class Polygon:
     def __init__(self, points, check=True):
         self.points = points
         if check and not (self.check_convex() and
-                          self.check_self_intersection() and
-                          self.check_num_of_edges()):
+                              self.check_self_intersection() and
+                              self.check_num_of_edges()):
             raise ValueError('Not convex')
 
     def yield_edges(self):
@@ -61,8 +61,26 @@ class Segment:
         self.points = p1, p2
 
     def get_middle_point(self):
-        return (self.points[0][0] + self.points[1][0])//2,\
-               (self.points[0][1] + self.points[1][1])//2
+        return (self.points[0][0] + self.points[1][0]) // 2, \
+               (self.points[0][1] + self.points[1][1]) // 2
+
+    def get_orto_segm(self, y):
+        middle = self.get_middle_point()
+        s = Segment((0, 0), (0, 0))
+        s.A = -self.B
+        s.B = self.A
+        s.C = -self.A * middle[1] + self.B * middle[0]
+        s.reinit(y)
+        return s
+
+    def get_x(self, y):
+        return int((-self.C - self.B * y) / self.A)
+
+    def get_y(self, x):
+        return int((-self.C - self.A * x) / self.B)
+
+    def reinit(self, y):
+        self.points = (0, self.get_y(0)), (self.get_x(y), y)
 
     def common_point(self, other):
         for p1 in self.points:
@@ -93,3 +111,11 @@ class Segment:
     @staticmethod
     def get_distance(p1, p2):
         return sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
+
+
+s = Segment((0, 0), (0, 0))
+s.A = 4
+s.B = -9
+s.C = 3
+p = s.get_orto_segm(800)
+print(p.A, p.B, p.C)
