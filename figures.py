@@ -61,8 +61,8 @@ class Segment:
         self.points = p1, p2
 
     def get_middle_point(self):
-        return (self.points[0][0] + self.points[1][0])/2,\
-               (self.points[0][1] + self.points[1][1])/2
+        return (self.points[0][0] + self.points[1][0])//2,\
+               (self.points[0][1] + self.points[1][1])//2
 
     def common_point(self, other):
         for p1 in self.points:

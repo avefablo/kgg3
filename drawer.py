@@ -19,7 +19,10 @@ class VoronoiDrawer(Drawer):
         for e in poly.yield_edges():
             for p in bresenham_line(e[0], e[1]):
                 self.draw_point(qp, p, QtCore.Qt.red)
-            self.draw_point(qp, Segment(*e).get_middle_point(), QtCore.Qt.blue)
+            middle = Segment(*e).get_middle_point()
+            for i in range(middle[0] - 2, middle[0]+2):
+                for j in range(middle[1] - 2, middle[1] + 2):
+                    self.draw_point(qp, (i, j), QtCore.Qt.blue)
 
     def draw_point(self, qp, p, color):
         qp.setPen(color)
