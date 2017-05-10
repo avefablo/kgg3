@@ -1,8 +1,9 @@
+from data_types import Point
 def bresenham_line(p1, p2):
-    x0 = p1[0]
-    x1 = p2[0]
-    y0 = p1[1]
-    y1 = p2[1]
+    x0 = p1.x
+    x1 = p2.x
+    y0 = p1.y
+    y1 = p2.y
 
     dx = x1 - x0
     dy = y1 - y0
@@ -23,7 +24,7 @@ def bresenham_line(p1, p2):
     y = 0
 
     for x in range(dx + 1):
-        yield (x0 + x * xx + y * yx, y0 + x * xy + y * yy)
+        yield Point(x0 + x * xx + y * yx, y0 + x * xy + y * yy)
         if D > 0:
             y += 1
             D -= dx

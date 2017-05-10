@@ -1,4 +1,4 @@
-from figures import Segment
+from data_types import Segment
 from qtcarcas import Drawer
 from math import sqrt, sin, cos, tan
 from PyQt4 import QtCore
@@ -15,15 +15,16 @@ class VoronoiDrawer(Drawer):
         self.draw_polygon(qp)
 
     def draw_polygon(self, qp):
-        poly = self.polygon
-        for e in poly.yield_edges():
-            for p in bresenham_line(e[0], e[1]):
-                self.draw_point(qp, p, QtCore.Qt.red)
-            orto = Segment(*e).get_orto_segm(self.size.height())
-            print(orto.points)
-            for p in bresenham_line(orto.points[0], orto.points[1]):
-                self.draw_point(qp, p, QtCore.Qt.blue)
+        qp.setPen(QtCore.Qt.red)
+        for e in self.polygon.edges:
+            qp.drawLine(e.points[0].x, e.points[0].y,
+                        e.points[1].x, e.points[1].y)
+        qp.setPen(QtCore.Qt.blue)
+        for e in self.polygon.bbb:
+
+            qp.drawLine(e.points[0].x, e.points[0].y,
+                        e.points[1].x, e.points[1].y)
 
     def draw_point(self, qp, p, color):
         qp.setPen(color)
-        qp.drawPoint(p[0], p[1])
+        qp.drawPoint(p.x, p.y)
