@@ -12,9 +12,10 @@ from random import randint
 def main():
     app = QtGui.QApplication(sys.argv)
     poly = Polygon(random_poly(length=6),
-                   #[(20, 20), (520, 20), (520, 320), (20, 320)],
+                   #[(100, 100), (500, 100), (500, 200), (100, 300)],
                    check=True)
     poly.voronoi()
+    poly.circles = poly.gen_circles()
     ex = Carcass(VoronoiDrawer(poly))
     app.exec_()
     app.deleteLater()

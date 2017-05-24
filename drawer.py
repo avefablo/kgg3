@@ -1,8 +1,7 @@
-from data_types import Segment
 from qtcarcas import Drawer
-from math import sqrt, sin, cos, tan
 from PyQt4 import QtCore
-from bresenhammer import bresenham_line
+from PyQt4 import QtGui
+from data_types import Event
 
 
 class VoronoiDrawer(Drawer):
@@ -19,12 +18,16 @@ class VoronoiDrawer(Drawer):
         for e in self.polygon.edges:
             qp.drawLine(e.points[0].x, e.points[0].y,
                         e.points[1].x, e.points[1].y)
-        qp.setPen(QtCore.Qt.blue)
+        qp.setPen(QtCore.Qt.green)
         for e in self.polygon.bbb:
-
             qp.drawLine(e.points[0].x, e.points[0].y,
                         e.points[1].x, e.points[1].y)
+        qp.setPen(QtCore.Qt.blue)
+        for circ in self.polygon.circles:
+            qp.drawEllipse(QtCore.QPoint(circ.center.x, circ.center.y),
+                            circ.radius, circ.radius)
 
     def draw_point(self, qp, p, color):
         qp.setPen(color)
         qp.drawPoint(p.x, p.y)
+    

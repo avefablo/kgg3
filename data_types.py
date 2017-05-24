@@ -83,6 +83,11 @@ class Segment:
         ab = get_distance(self.points[0], self.points[1])
         return abs(ap + bp - ab) < delta
 
+    def this_len(self):
+        return get_distance(self.points[0], self.points[1])
+
+    def distance_to_point(self, p):
+        return abs(self.A*p.x+self.B*p.y-self.C)/self.this_len()
 
 class Event:
     def __init__(self, x, p, a):

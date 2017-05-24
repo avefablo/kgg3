@@ -1,5 +1,8 @@
+import operator
+
 from bresenhammer import bresenham_line
-from data_types import Segment, Point
+from data_types import Segment, Point, Circle
+from misc import get_distance
 from voronoi import Voronoi
 
 
@@ -15,6 +18,7 @@ class Polygon:
                     self.check_num_of_edges()):
             raise ValueError('Not convex')
         self.bbb = []
+        self.circles = None
 
     def voronoi(self):
         test = set()
@@ -27,28 +31,76 @@ class Polygon:
         v = Voronoi(test)
         v.process()
         self.bbb = []
-        i = 0
-        for e in sorted(v.output, key=lambda e: e.points[0].x):
+        voronoi_res = []
+        ddd = {}
+        for e in v.output:
+            p01 = round(e.points[0].x), round(e.points[0].y)
+            p02 = round(e.points[1].x), round(e.points[1].y)
 
-            p1 = Point(round(e.points[0].x), round(e.points[0].y))
-            p2 = Point(round(e.points[1].x), round(e.points[1].y))
-            if self.check_point_inside_polygon(p1) and \
-               self.check_point_inside_polygon(p2) and\
-               not self.check_point_on_edge(p1) and \
-               not self.check_point_on_edge(p2):
-                self.bbb.append(Segment(p1, p2))
-                print("\t({} {}) ({} {})".format(int(e.points[0].x),
-                                               int(e.points[0].y),
-                                               int(e.points[1].x),
-                                               int(e.points[1].y)))
+            if p01 == p02:
+                continue
+            if p01 in ddd:
+                ddd[p01] += 1
             else:
-                print("({} {}) ({} {})".format(int(e.points[0].x),
-                                                 int(e.points[0].y),
-                                                 int(e.points[1].x),
-                                                 int(e.points[1].y)))
+                ddd[p01] = 1
+            p1 = Point(*p01)
+            p2 = Point(*p02)
+            voronoi_res.append(Segment(p1, p2))
 
-            i += 1
-        print(len(self.bbb))
+        for e in voronoi_res:
+            p1 = e.points[0]
+            p2 = e.points[1]
+            if self.check_point_inside_polygon(p1) and \
+                    self.check_point_inside_polygon(p2) and \
+                    not self.check_point_on_edge(p1) and \
+                    not self.check_point_on_edge(p2):
+                self.bbb.append(e)
+
+        self.filter_bbb(voronoi_res, ddd)
+
+
+    def filter_bbb(self, vor_out, ddd):
+        filtered = []
+        for e1 in sorted(self.bbb, key=lambda e: e.points[0].x):
+            p11 = (e1.points[0].x, e1.points[0].y)
+            p12 = e1.points[1]
+            if ddd[p11] == 1:
+                filtered.append(e1)
+            else:
+                for e2 in vor_out:
+                    p21 = e2.points[0]
+                    p22 = e2.points[1]
+                    s = Segment(p12, p22)
+                    if p21 == p11 \
+                            and not s.check_point_inside_segment(p21):
+                        filtered.append(e1)
+        self.bbb = filtered
+
+    def gen_circle(self, c1=None):
+        p = set()
+        for e in self.bbb:
+            for y in bresenham_line(*e.points):
+                p.add(y)
+        max_rad = 0.0
+        max_point = (0, 0)
+        for point in p:
+            min_that = min(x.distance_to_point(point) for x in self.edges)
+            if c1 is None:
+                if max_rad < min_that:
+                    max_rad = min_that
+                    max_point = point
+            else:
+                if max_rad < min_that \
+                        and c1.radius + min_that <= get_distance(c1.center, point):
+                    max_rad = min_that
+                    max_point = point
+
+        return Circle(max_point, max_rad)
+
+    def gen_circles(self):
+        c1 = self.gen_circle()
+        c2 = self.gen_circle(c1=c1)
+        return c1, c2
 
     def gen_edges(self):
         s = []
